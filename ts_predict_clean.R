@@ -4,11 +4,6 @@ library(tidyverse)
 library(lubridate)
 library(purrr)
 
-# string used to connect to Savona database
-# change password first
-con_str <- paste0("Driver={SQL Server};Server=Savona;Database=service_analysis;trusted_connection=true")  
-connection <- odbcDriverConnect(con_str)
-
 # SQL query for all the data
 sqlQuery_view <- "SELECT tp.operating_date, tp.sheet_code, tp.line_no, tp.direction_name,
 tp.sch_min_interval, tp.sch_max_interval,

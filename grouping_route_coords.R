@@ -11,7 +11,6 @@
 #
 ############
 
-
 # Libraries
 ############
 library(fuzzyjoin)
@@ -19,16 +18,8 @@ library(stringr)
 library(tidyverse)
 library(RODBC)
 
-
-
-
-
 # SQL Connection and pulling
 ############
-
-con_str <- paste0("Driver={SQL Server};Server=Savona;Database=service_analysis;trusted_connection=true")  
-
-connection <- odbcDriverConnect(con_str)
 
 tp_query <- "SELECT * from [runtime_analysis].[tp_with_latlon]"
 tp_with_latlon <- sqlQuery(channel = connection, tp_query)
@@ -36,10 +27,6 @@ tp_with_latlon <- sqlQuery(channel = connection, tp_query)
 
 route_coords_query <- "SELECT * FROM [runtime_analysis].[route_coords_small]"
 routes <- sqlQuery(connection, route_coords_query)
-
-
-
-
 
 # Find next and previous timing points in proper order
 ############
@@ -141,6 +128,5 @@ route_coords_tpp_eh$pk = seq(1,nrow(route_coords_tpp_eh))
 ############
 sqlDrop(channel=connection, sqtable = "runtime_analysis.route_coords_tpp")
 sqlSave(channel=connection, dat = route_coords_tpp_eh, tablename = "runtime_analysis.route_coords_tpp", rownames = FALSE )
-
 
 print("Yay grouping_route_coords.R worked")

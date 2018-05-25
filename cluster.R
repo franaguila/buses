@@ -1,15 +1,10 @@
 #!/usr/bin/Rscript
-
-
 library(RODBC)
 library(dplyr)
 library(ggplot2)
 library(cluster)
 library(knitr)
 library(reshape2)
-
-con_str <- paste0("Driver={SQL Server};Server=Savona;Database=service_analysis;trusted_connection=true")  
-connection <- odbcDriverConnect(con_str)
 
 #read in the unique from and to stops in the data we have (used to be tp_data_v2)
 Q <- paste0("SELECT * FROM runtime_analysis.unique_timing_point_pairs")

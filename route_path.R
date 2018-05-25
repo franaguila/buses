@@ -11,8 +11,6 @@
 #
 ############
 
-
-
 # Libraries
 ############
 library(tidyverse)
@@ -30,7 +28,6 @@ library(RODBC)
 
 route_nums <- read_csv("./data/google_transit/routes.txt") %>% 
   select(route_short_name)
-
 
 # Download all shape files 
 ############
@@ -53,18 +50,14 @@ get_route_info <- function(a_route_no) {
 }
 
 
-
-
-# Parallaized loop over all routes that work
+# Parallized loop over all routes that work
 ############
 suppressMessages(suppressWarnings(map(.x = route_nums$route_short_name[197:nrow(route_nums) ], .f = get_route_info)))
-
 
 # Zips all files cause weird things you have to do to extract information
 ############
 data_location = "./data/routes/"
 files_to_edit <- list.files(pattern = "*.kmz", path=data_location)
-
 
 convert_to_zip <- function(a_file) {
   
@@ -73,9 +66,6 @@ convert_to_zip <- function(a_file) {
 }
 
 map(.x= files_to_edit, .f = convert_to_zip)
-
-
-
 
 # Parses all ZIP files 
 ############
@@ -181,12 +171,5 @@ combined_routes <- bind_rows(master_routes)
 
 # Save to SQL
 ############
-
-# write_csv(combined_routes,path = )
-
-con_str <- paste0("Driver={SQL Server};Server=Savona;Database=service_analysis;trusted_connection=true")  
-
-connection <- odbcDriverConnect(con_str)
-
 #sqlDrop(channel=connection, sqtable = "runtime_analysis.route_coords_test")
 sqlSave(channel=connection, dat = combined_routes, tablename = "runtime_analysis.route_coords_test", rownames = FALSE )
